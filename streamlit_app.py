@@ -89,8 +89,13 @@ else:
             
             # Twitter sharing button
             if st.button("Tweet", key="tweet_button"):
-                tweet = response.text[:280]  # Truncate response to 280 characters
-                twitter_api.update_status(status=tweet)
-                st.success("Tweeted!")
+                try:
+                    tweet = response.text[:280]  # Truncate response to 280 characters
+                    twitter_api.update_status(status=tweet)
+                    st.success("Tweeted!")
+                except tweepy.TweepError as e:
+                    st.error(f"Error tweeting: {e}")
+                except Exception as e:
+                    st.error(f"Error: {e}")
         except Exception as e:
             st.error(f"Error: {e}")
