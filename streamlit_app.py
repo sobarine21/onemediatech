@@ -9,7 +9,7 @@ genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])
 
 # Twitter API configuration
 twitter_api_key = st.secrets["TWITTER_API_KEY"]
-twitter_api_secret = st.secrets["TWITTER_API_SECRET"]
+twitter_api_secret = st.secrets["TWITTER_API_SECRET_KEY"]
 twitter_access_token = st.secrets["TWITTER_ACCESS_TOKEN"]
 twitter_access_token_secret = st.secrets["TWITTER_ACCESS_TOKEN_SECRET"]
 
