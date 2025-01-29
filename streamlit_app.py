@@ -36,7 +36,10 @@ if st.button("Generate Response"):
                 tweet = response.text
                 twitter_api.update_status(status=tweet)
                 st.success("Tweet posted successfully!")
-            except Exception as e:
+            except tweepy.TweepError as e:
                 st.error(f"Error posting to Twitter: {e}")
+                st.error(f"Twitter API response: {e.response.text}")
+            except Exception as e:
+                st.error(f"An unexpected error occurred: {e}")
     except Exception as e:
         st.error(f"Error: {e}")
