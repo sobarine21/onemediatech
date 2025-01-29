@@ -48,29 +48,29 @@ if st.session_state.username is None:
     login_tab, register_tab = st.tabs(["Login", "Register"])
 
     with login_tab:
-        username = st.text_input("Username")
-        password = st.text_input("Password", type="password")
-        if st.button("Login"):
-            if login_user(username, password):
-                st.session_state.username = username
+        login_username = st.text_input("Username", key="login_username")
+        login_password = st.text_input("Password", type="password", key="login_password")
+        if st.button("Login", key="login_button"):
+            if login_user(login_username, login_password):
+                st.session_state.username = login_username
             else:
                 st.error("Invalid username or password")
 
     with register_tab:
-        username = st.text_input("Username")
-        password = st.text_input("Password", type="password")
-        if st.button("Register"):
-            register_user(username, password)
+        register_username = st.text_input("Username", key="register_username")
+        register_password = st.text_input("Password", type="password", key="register_password")
+        if st.button("Register", key="register_button"):
+            register_user(register_username, register_password)
             st.success("User registered successfully")
 else:
     # App functionality
     st.write(f"Welcome, {st.session_state.username}!")
 
     # Prompt input field
-    prompt = st.text_input("Enter your prompt:", "Best alternatives to javascript?")
+    prompt = st.text_input("Enter your prompt:", "Best alternatives to javascript?", key="prompt_input")
 
     # Button to generate response
-    if st.button("Generate Response"):
+    if st.button("Generate Response", key="generate_response_button"):
         try:
             # Load and configure the model
             model = genai.GenerativeModel('gemini-1.5-flash')
@@ -83,9 +83,9 @@ else:
             st.write(response.text)
             
             # Twitter sharing button
-            if st.button("Tweet"):
+            if st.button("Tweet", key="tweet_button"):
                 tweet = response.text[:280]  # Truncate response to 280 characters
                 twitter_api.update_status(status=tweet)
                 st.success("Tweeted!")
         except Exception as e:
-            st.error(f"Error: {e}")
+            st.error(f"Error: {e}")
