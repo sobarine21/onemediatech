@@ -2,6 +2,7 @@ import streamlit as st
 import google.generativeai as genai
 import tweepy
 import hashlib
+import os
 
 # Configure the API keys securely from Streamlit's secrets
 # Make sure to add GOOGLE_API_KEY, TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, and TWITTER_ACCESS_TOKEN_SECRET in secrets.toml (for local) or Streamlit Cloud Secrets
@@ -30,6 +31,8 @@ def register_user(username, password):
         f.write(f"{username}:{stored_password}\n")
 
 def login_user(username, password):
+    if not os.path.exists("users.txt"):
+        return False
     with open("users.txt", "r") as f:
         for line in f.readlines():
             stored_username, stored_password = line.strip().split(":")
@@ -60,6 +63,8 @@ if st.session_state.username is None:
         register_username = st.text_input("Username", key="register_username")
         register_password = st.text_input("Password", type="password", key="register_password")
         if st.button("Register", key="register_button"):
+            if not os.path.exists("users.txt"):
+                open("users.txt", "w").close()
             register_user(register_username, register_password)
             st.success("User registered successfully")
 else:
